@@ -183,7 +183,7 @@ public class ArticoloDAOImpl extends AbstractMySQLDAO implements ArticoloDAO {
 			ps.setInt(7, prezzo);
 			ps.setInt(8, prezzo);
 			
-			Long cat = (input.getCategoria().getId()==null) ? -1 : input.getCategoria().getId();
+			Long cat = (input.getCategoria()==null) ? -1 : input.getCategoria().getId();
 			ps.setLong(9, input.getCategoria().getId());
 			ps.setLong(10, input.getCategoria().getId());
 			
@@ -236,7 +236,7 @@ public class ArticoloDAOImpl extends AbstractMySQLDAO implements ArticoloDAO {
 			ps.setInt(5, prezzo);
 			ps.setInt(6, prezzo);
 			
-			Long cat = (input.getCategoria().getId()==null) ? -1 : input.getCategoria().getId();
+			Long cat = (input.getCategoria()==null) ? -1 : input.getCategoria().getId();
 			ps.setLong(7, cat);
 			ps.setLong(8, cat);
 			ResultSet rs = ps.executeQuery();

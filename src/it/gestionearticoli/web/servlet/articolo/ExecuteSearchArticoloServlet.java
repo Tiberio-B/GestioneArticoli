@@ -30,8 +30,8 @@ public class ExecuteSearchArticoloServlet extends HttpServlet {
 		String codice = request.getParameter("codice");
 		String descrizione = request.getParameter("descrizione");
 		String prezzoParam = request.getParameter("prezzo");
-		Integer prezzo = !prezzoParam.isEmpty() ? Integer.parseInt(prezzoParam) : 0;
-		Long idCat = !idCatParam.isEmpty() ? Long.parseLong(idCatParam) : 0;
+		Integer prezzo = !prezzoParam.isEmpty() ? Integer.parseInt(prezzoParam) : -1;
+		Long idCat = !idCatParam.isEmpty() ? Long.parseLong(idCatParam) : -1;
 				
 		Articolo articolo = new Articolo(codice, descrizione, prezzo);
 		
@@ -54,7 +54,7 @@ public class ExecuteSearchArticoloServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		request.setAttribute("searched", true);
 		request.getRequestDispatcher("jsp/articolo/articoli.jsp").forward(request, response);
 	}
 
