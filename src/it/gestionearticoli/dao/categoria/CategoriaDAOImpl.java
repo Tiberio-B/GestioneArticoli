@@ -138,13 +138,15 @@ public class CategoriaDAOImpl extends AbstractMySQLDAO implements CategoriaDAO {
 	
 		String query = "SELECT * FROM categoria"+
 						" WHERE " +
-						"(id_cat = ? OR ? is null) AND "+
+						"(id_cat = ? OR ? = -1) AND "+
 						"(nome = ? OR ? is null)";
 
 		try (PreparedStatement ps = connection.prepareStatement(query)) {
 		
-			ps.setLong(1, input.getId());
-			ps.setLong(2, input.getId());
+			Long id = (input.getId()==null) ? -1 : input.getId();
+			ps.setLong(1, id);
+			ps.setLong(2, id);
+			
 			ps.setString(3, input.getNome());
 			ps.setString(4, input.getNome());
 			ResultSet rs = ps.executeQuery();

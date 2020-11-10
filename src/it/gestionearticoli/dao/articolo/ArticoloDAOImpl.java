@@ -161,24 +161,32 @@ public class ArticoloDAOImpl extends AbstractMySQLDAO implements ArticoloDAO {
 	
 		String query = "SELECT * FROM (articolo a JOIN categoria c on a.categoria_fk = c.id_cat) "+
 						"WHERE" +
-						" (id = ? OR ? is null) AND"+
+						" (id = ? OR ? = -1) AND"+
 						" (codice = ? OR ? is null) AND"+
 						" (descrizione = ? OR ? is null) AND"+
-						" (prezzo = ? OR ? is null) AND"+
-						" (categoria_fk = ? OR ? is null)";
+						" (prezzo = ? OR ? = -1) AND"+
+						" (categoria_fk = ? OR ? = -1)";
 
 		try (PreparedStatement ps = connection.prepareStatement(query)) {
 		
-			ps.setLong(1, input.getId());
-			ps.setLong(2, input.getId());
+			Long id = (input.getId()==null) ? -1 : input.getId();
+			ps.setLong(1, id);
+			ps.setLong(2, id);
+			
 			ps.setString(3, input.getCodice());
 			ps.setString(4, input.getCodice());
+			
 			ps.setString(5, input.getDescrizione());
 			ps.setString(6, input.getDescrizione());
-			ps.setInt(7, input.getPrezzo());
-			ps.setInt(8, input.getPrezzo());
+			
+			Integer prezzo = (input.getPrezzo()==null) ? -1 : input.getPrezzo();
+			ps.setInt(7, prezzo);
+			ps.setInt(8, prezzo);
+			
+			Long cat = (input.getCategoria().getId()==null) ? -1 : input.getCategoria().getId();
 			ps.setLong(9, input.getCategoria().getId());
 			ps.setLong(10, input.getCategoria().getId());
+			
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
@@ -213,8 +221,8 @@ public class ArticoloDAOImpl extends AbstractMySQLDAO implements ArticoloDAO {
 						"WHERE" +
 						" (codice like ? OR ? is null) AND"+
 						" (descrizione like ? OR ? is null) AND"+
-						" (prezzo = ? OR ? is null) AND"+
-						" (categoria_fk = ? OR ? is null)";
+						" (prezzo = ? OR ? = -1) AND"+
+						" (categoria_fk = ? OR ? = -1)";
 
 		try (PreparedStatement ps = connection.prepareStatement(query)) {
 		
@@ -224,11 +232,13 @@ public class ArticoloDAOImpl extends AbstractMySQLDAO implements ArticoloDAO {
 			ps.setString(3, "%"+input.getDescrizione()+"%");
 			ps.setString(4, input.getDescrizione());
 			
-			ps.setInt(5, input.getPrezzo());
-			ps.setInt(6, input.getPrezzo());
+			Integer prezzo = (input.getPrezzo()==null) ? -1 : input.getPrezzo();
+			ps.setInt(5, prezzo);
+			ps.setInt(6, prezzo);
 			
-			ps.setLong(7, input.getCategoria().getId());
-			ps.setLong(8, input.getCategoria().getId());
+			Long cat = (input.getCategoria().getId()==null) ? -1 : input.getCategoria().getId();
+			ps.setLong(7, cat);
+			ps.setLong(8, cat);
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {

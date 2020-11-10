@@ -92,14 +92,19 @@ public class UtenteDAOImpl extends AbstractMySQLDAO
 		
 			ps.setLong(1, input.getId());
 			ps.setLong(2, input.getId());
+			
 			ps.setString(3, input.getNome());
 			ps.setString(4, input.getNome());
+			
 			ps.setString(5, input.getCognome());
 			ps.setString(6, input.getCognome());
+			
 			ps.setString(7, input.getCf());
 			ps.setString(8, input.getCf());
+			
 			ps.setString(9, input.getUsername());
 			ps.setString(10, input.getUsername());
+			
 			ps.setString(11, input.getPassword());
 			ps.setString(12, input.getPassword());
 			ResultSet rs = ps.executeQuery();
