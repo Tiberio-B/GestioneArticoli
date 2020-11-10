@@ -2,7 +2,7 @@
 <html lang="it">
   <head>
     
-    <jsp:include page="./header.jsp" />
+    <jsp:include page="./jsp/header.jsp" />
     
     <!-- Custom styles for this template -->
     <link href="./assets/css/global.css" rel="stylesheet">
@@ -16,7 +16,7 @@
   </head>
   <body>
   
-	<jsp:include page="./navbar.jsp"></jsp:include>
+	<jsp:include page="./jsp/navbar.jsp"></jsp:include>
   
   
 	<main role="main">
@@ -56,6 +56,6 @@
 	
 	</main>
 	
-	<jsp:include page="./footer.jsp" />
+	<jsp:include page="./jsp/footer.jsp" />
   </body>
 </html>

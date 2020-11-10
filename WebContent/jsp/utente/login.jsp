@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="it">
 <head>
-	<jsp:include page="/header.jsp" />
+	<jsp:include page="../header.jsp" />
 	<title>Pagina di Login</title>
 	
 	<!-- style per le pagine diverse dalla index -->
@@ -9,11 +9,11 @@
     
 </head>
 <body>
-	<jsp:include page="/navbar.jsp" />
+	<jsp:include page="../navbar.jsp" />
 	
 	<main role="main" class="container">
 	
-	<jsp:include page="/error-message.jsp" />
+	<jsp:include page="../error-message.jsp" />
 		
 		<div class='card'>
 		    <div class='card-header'>
@@ -53,7 +53,7 @@
 	
 	<!-- end container -->	
 	</main>
-	<jsp:include page="/footer.jsp" />
+	<jsp:include page="../footer.jsp" />
 	
 </body>
 </html>

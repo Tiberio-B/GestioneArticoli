@@ -27,7 +27,7 @@ public class LoginServlet extends HttpServlet {
 		
 		// se l'utente è già loggato, torna in homepage
 		if(request.getSession().getAttribute("utente") != null ) {
-			request.getRequestDispatcher("home.jsp").forward(request, response);
+			request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
 			return;
 		}
 		
@@ -65,6 +65,6 @@ public class LoginServlet extends HttpServlet {
 		sess.setAttribute("cannotUpdate", (utente.isGuest()));
 		sess.setAttribute("cannotDelete", !(utente.isAdmin()));
 		
-		request.getRequestDispatcher("home.jsp").forward(request, response);
+		request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
 	}
 }

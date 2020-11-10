@@ -5,7 +5,7 @@
 <!doctype html>
 <html lang="it">
 <head>
-	<jsp:include page="/header.jsp" />
+	<jsp:include page="../header.jsp" />
 	<title>Pagina dei risultati</title>
 	
 	<!-- style per le pagine diverse dalla index -->
@@ -13,7 +13,7 @@
     
 </head>
 <body>
-	<jsp:include page="/navbar.jsp" />
+	<jsp:include page="../navbar.jsp" />
 	
 	<main role="main" class="container">
 	
@@ -91,7 +91,7 @@
 	
 	<!-- end container -->	
 	</main>
-	<jsp:include page="/footer.jsp" />
+	<jsp:include page="../footer.jsp" />
 	
 </body>
 </html>
