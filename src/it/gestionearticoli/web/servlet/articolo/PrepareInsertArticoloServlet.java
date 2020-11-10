@@ -33,7 +33,7 @@ public class PrepareInsertArticoloServlet extends HttpServlet {
 		}
 		if ( !(utente.isAdmin() || utente.isOperator())) {
 			String errorMessage = "Non possiedi le credenziali necessarie ad effettuare questa operazione.\n"+
-					"Ruolo richiesto: Admin, Ruolo attuale: "+utente.getRuolo().name();
+					"Ruolo richiesto: Admin o Operator, Ruolo attuale: "+utente.getRuolo().name();
 			request.setAttribute("errorMessage", errorMessage);
 			request.getRequestDispatcher("jsp/utente/login.jsp").forward(request, response);
 			return;

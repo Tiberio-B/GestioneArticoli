@@ -25,7 +25,16 @@ public class PrepareDeleteCategoriaServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		Utente utente = (Utente) request.getSession().getAttribute("utente");
-		if (utente == null || !(utente.isAdmin())) {	
+		if ( utente == null) {
+			String errorMessage = "Devi essere loggato per effettuare questa operazione.";
+			request.setAttribute("errorMessage", errorMessage);
+			request.getRequestDispatcher("jsp/utente/login.jsp").forward(request, response);
+			return;
+		}
+		if ( !(utente.isAdmin()) ) {
+			String errorMessage = "Non possiedi le credenziali necessarie ad effettuare questa operazione.\n"+
+					"Ruolo richiesto: Admin, Ruolo attuale: "+utente.getRuolo().name();
+			request.setAttribute("errorMessage", errorMessage);
 			request.getRequestDispatcher("jsp/utente/login.jsp").forward(request, response);
 			return;
 		}

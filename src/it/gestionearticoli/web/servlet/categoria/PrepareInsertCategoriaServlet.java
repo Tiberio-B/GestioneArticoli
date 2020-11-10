@@ -21,8 +21,17 @@ public class PrepareInsertCategoriaServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		Utente utente = (Utente) request.getSession().getAttribute("utente");	
-		if ( utente == null || !(utente.isAdmin() || utente.isOperator())) {	
+		Utente utente = (Utente) request.getSession().getAttribute("utente");
+		if ( utente == null) {
+			String errorMessage = "Devi essere loggato per effettuare questa operazione.";
+			request.setAttribute("errorMessage", errorMessage);
+			request.getRequestDispatcher("jsp/utente/login.jsp").forward(request, response);
+			return;
+		}
+		if ( !(utente.isAdmin() || utente.isOperator())) {
+			String errorMessage = "Non possiedi le credenziali necessarie ad effettuare questa operazione.\n"+
+					"Ruolo richiesto: Admin o Operator, Ruolo attuale: "+utente.getRuolo().name();
+			request.setAttribute("errorMessage", errorMessage);
 			request.getRequestDispatcher("jsp/utente/login.jsp").forward(request, response);
 			return;
 		}
