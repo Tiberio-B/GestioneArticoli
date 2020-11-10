@@ -1,0 +1,17 @@
+# Eclipse files & directories
+
+.settings/
+.classpath
+.project
+
+# INTELLI J IDEA files & directories
+
+IDEA/
+
+# Java .class files
+
+build/
+
+# My files
+
+consegna.txt
