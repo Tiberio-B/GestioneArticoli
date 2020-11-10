@@ -37,8 +37,8 @@ public class ExecuteSearchCategoriaServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		request.getRequestDispatcher("jsp/articolo/articoli.jsp").forward(request, response);
+		request.setAttribute("searched", true);
+		request.getRequestDispatcher("jsp/categoria/categorie.jsp").forward(request, response);
 	}
 
 }

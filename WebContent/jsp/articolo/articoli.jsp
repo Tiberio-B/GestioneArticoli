@@ -38,7 +38,7 @@
 		
 		<div class='card'>
 		    <div class='card-header'>
-		        <h5>Elenco degli Articoli</h5> 
+		        <h5>Elenco degli Articoli${filtered==true? ' in ${categoria}': ''}</h5> 
 		    </div>
 		    <div class='card-body'>
 		    	<a class="btn btn-primary " href="PrepareInsertArticoloServlet">Add New</a>

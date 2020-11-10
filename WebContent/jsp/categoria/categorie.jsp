@@ -6,7 +6,7 @@
 <html lang="it">
 <head>
 	<jsp:include page="../header.jsp" />
-	<title>Lista delle Categorie</title>
+	<title>Elenco delle Categorie</title>
 	
 	<!-- style per le pagine diverse dalla index -->
     <link href="./assets/css/global.css" rel="stylesheet">
@@ -38,7 +38,7 @@
 		
 		<div class='card'>
 		    <div class='card-header'>
-		        <h5>Lista delle Categorie</h5> 
+		        <h5>Elenco delle Categorie${searched==true? ' che soddisfano i parametri della ricerca': ''}</h5> 
 		    </div>
 		    <div class='card-body'>
 		    	<a class="btn btn-primary " href="PrepareInsertCategoriaServlet" aria-disabled="${sessionScope.cannotInsert}">Add New</a>

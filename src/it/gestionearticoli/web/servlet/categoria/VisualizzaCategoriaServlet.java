@@ -42,6 +42,7 @@ public class VisualizzaCategoriaServlet extends HttpServlet {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+		request.setAttribute("categoria", categoria);
 		
 		// genera un articolo-esempio per la categoria
 		Articolo articolo = new Articolo();
@@ -54,6 +55,7 @@ public class VisualizzaCategoriaServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		request.setAttribute("listaArticoliAttribute", articoli);
+		request.setAttribute("filtered", true);
 		request.getRequestDispatcher("jsp/articolo/articoli.jsp").forward(request, response);
 	}
 
