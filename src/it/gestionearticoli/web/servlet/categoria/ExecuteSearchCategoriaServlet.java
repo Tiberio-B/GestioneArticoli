@@ -25,7 +25,8 @@ public class ExecuteSearchCategoriaServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// validazione input
+		
+		// stringa vuota ammessa
 		String nome = request.getParameter("nome");
 		
 		Categoria categoria = new Categoria();

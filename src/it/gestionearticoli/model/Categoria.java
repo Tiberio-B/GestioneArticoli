@@ -1,14 +1,19 @@
 package it.gestionearticoli.model;
 
-public class Categoria extends Record {
+public class Categoria extends Identified {
 	
 	private String nome;
 
-	public Categoria(String nome) {
+	public Categoria() {}
+
+	public Categoria(Long id, String nome) {
+		this.id = id;
 		this.nome = nome;
 	}
-
-	public Categoria() {}
+	
+	public Categoria(String nome) {
+		this(null, nome);
+	}
 
 	public String getNome() {
 		return nome;

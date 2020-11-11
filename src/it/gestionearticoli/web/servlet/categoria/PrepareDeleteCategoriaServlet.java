@@ -25,15 +25,15 @@ public class PrepareDeleteCategoriaServlet extends MyAbstractServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		// verifica ruolo utente
+		// verifica ruolo utente, se fallisce reindirizza
 		Utente.Ruolo[] ruoliRichiesti = {Utente.Ruolo.Admin};
-		int auth = validateUser(request, "utente", ruoliRichiesti);
+		int auth = verifyUser(request, "utente", ruoliRichiesti);
 		if (auth <= 0) {
 			request.getRequestDispatcher("jsp/utente/login.jsp").forward(request, response);
 			return;
 		}
 		
-		// validazione input
+		// validazione input, se fallisce reindirizza
 		Long idCat = validateID(request, "idCat");
 		if (idCat < 0) {
 			request.getRequestDispatcher("jsp/categoria/categorie.jsp").forward(request, response);
@@ -48,6 +48,7 @@ public class PrepareDeleteCategoriaServlet extends MyAbstractServlet {
 			e.printStackTrace();
 		}
 		request.setAttribute("categoriaAttr", categoria);
+		request.setAttribute("listaCategorie", request.getParameter("listaCategorie"));
 
 		//andiamo ai risultati
 		request.getRequestDispatcher("jsp/categoria/delete-categoria.jsp").forward(request, response);

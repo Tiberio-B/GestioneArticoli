@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
 	<jsp:include page="../header.jsp" />
-	<title>Inserisci nuovo</title>
+	<title>Cerca una Categoria</title>
 	
 	<!-- style per le pagine diverse dalla index -->
     <link href="./assets/css/global.css" rel="stylesheet">
@@ -29,7 +29,7 @@
 		
 		<div class='card'>
 		    <div class='card-header'>
-		        <h5>Cerca tra le Categorie</h5> 
+		        <h5>Cerca una Categoria</h5> 
 		    </div>
 		    <div class='card-body'>
 

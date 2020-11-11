@@ -9,7 +9,9 @@
 	<title>Elenco degli Articoli</title>
 	
 	<!-- style per le pagine diverse dalla index -->
-    <link href="./assets/css/global.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/global.css" rel="stylesheet">
+    
+    
     
 </head>
 <body>
@@ -41,7 +43,7 @@
 		        <h5>Elenco degli Articoli${filtered==true? ' in ': ''} ${categoria} ${searched==true? ' che soddisfano i parametri della ricerca': ''}</h5> 
 		    </div>
 		    <div class='card-body'>
-		    	<a class="btn btn-primary " href="PrepareInsertArticoloServlet">Add New</a>
+		    	<a class="btn btn-primary ${sessionScope.cannotInsert?'disabled':''}" href="PrepareInsertArticoloServlet" aria-disabled="${sessionScope.cannotInsert}">Inserisci nuovo Articolo</a>
 		    
 		        <div class='table-responsive'>
 		            <table class='table table-striped ' >
@@ -65,8 +67,8 @@
 		                        <td><c:out value = "${item.categoria}"/></td>
 		                        <td>
 									<a class="btn  btn-sm btn-outline-secondary" href="VisualizzaArticoloServlet?idParam=${item.id}">Visualizza</a>
-									<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PrepareUpdateArticoloServlet?idParam=${item.id}">Modifica</a>
-									<a class="btn btn-outline-danger btn-sm" href="PrepareDeleteArticoloServlet?idParam=${item.id}">Rimuovi</a>
+									<a class="btn  btn-sm btn-outline-primary ml-2 mr-2 ${sessionScope.cannotUpdate?'disabled':''}" href="PrepareUpdateArticoloServlet?idParam=${item.id}" aria-disabled="${sessionScope.cannotUpdate}">Modifica</a>
+									<a class="btn btn-outline-danger btn-sm ${sessionScope.cannotDelete?'disabled':''}" href="PrepareDeleteArticoloServlet?idParam=${item.id}" aria-disabled="${sessionScope.cannotDelete}">Rimuovi</a>
 								</td>
 		                    </tr>
 		                    </c:forEach>

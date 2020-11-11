@@ -20,6 +20,10 @@
 		        Sei sicuro di voler eliminare la seguente categoria?
 		    </div>
 		    
+		    <!-- 
+		    <c:set var="listaCategorie" scope="request" value="${requestScope.listaCategorie}" />
+		     -->
+		    
 		    <c:set var="item" scope="request" value="${categoriaAttr}"/>
 		    
 		    <div class='card-body'>

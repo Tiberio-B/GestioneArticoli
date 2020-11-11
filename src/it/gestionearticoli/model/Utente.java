@@ -1,6 +1,6 @@
 package it.gestionearticoli.model;
 
-public class Utente extends Record {
+public class Utente extends Identified {
 
 	private String nome;
 	private String cognome;
@@ -19,12 +19,12 @@ public class Utente extends Record {
 		this.ruolo = Ruolo.Guest;
 	}
 	
+	public Utente() {}
+	
 	public Utente(String username, String password) {
 		this.username = username;
 		this.password = password;
 	}
-
-	public Utente() {}
 
 	public String getNome() {
 		return nome;

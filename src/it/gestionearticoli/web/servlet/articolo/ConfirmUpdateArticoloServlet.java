@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,9 +11,10 @@ import it.gestionearticoli.model.Articolo;
 import it.gestionearticoli.model.Categoria;
 import it.gestionearticoli.model.Utente;
 import it.gestionearticoli.service.ServiceFactory;
+import it.gestionearticoli.web.servlet.MyAbstractServlet;
 
 @WebServlet("/ConfirmUpdateArticoloServlet")
-public class ConfirmUpdateArticoloServlet extends HttpServlet {
+public class ConfirmUpdateArticoloServlet extends MyAbstractServlet {
 	private static final long serialVersionUID = 1L;
 
 	public ConfirmUpdateArticoloServlet() {
@@ -27,25 +27,23 @@ public class ConfirmUpdateArticoloServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		Utente utente = (Utente) request.getSession().getAttribute("utente");	
-		if ( utente == null || utente.isGuest()) {	
+
+		// verifica ruolo utente, se fallisce reindirizza
+		Utente.Ruolo[] ruoliAutorizzati = {Utente.Ruolo.Admin, Utente.Ruolo.Operator};
+		int auth = verifyUser(request, "utente", ruoliAutorizzati);
+		if (auth <= 0) {
 			request.getRequestDispatcher("jsp/utente/login.jsp").forward(request, response);
 			return;
 		}
 		
-		// validazione input
-		String idOldParam = request.getParameter("idOld");	
-		Long idOld = !idOldParam.isEmpty() ? Long.parseLong(idOldParam) : 0;
-		
-		// se la validazione fallisce torno in pagina
-		if (idOld < 1) {
-			request.setAttribute("errorMessage", "Attenzione sono presenti errori di validazione");
-			request.getRequestDispatcher("jsp/articolo/update-articolo.jsp").forward(request, response);
+		// validazione campo ID, se fallisce reindirizza
+		Long idOld = validateID(request, "idOld");
+		if (idOld < 0) {
+			request.getRequestDispatcher("jsp/categoria/categorie.jsp").forward(request, response);
 			return;
 		}
 		
-		// conserva l'articolo prima della modifica come articoloOld
+		// conserva l'articolo come articoloOld prima della modifica
 		try {
 			Articolo articoloOld = ServiceFactory.getArticoloServiceInstance().trova(idOld);
 			request.setAttribute("articoloOld", articoloOld);
@@ -69,8 +67,7 @@ public class ConfirmUpdateArticoloServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		Articolo articoloNew = new Articolo(codiceInputParam, descrizioneInputParam, prezzo, categoria);
-		articoloNew.setId(idOld);
+		Articolo articoloNew = new Articolo(idOld, codiceInputParam, descrizioneInputParam, prezzo, categoria);
 		request.setAttribute("articoloNew", articoloNew);
 				
 		// se la validazione fallisce torno in pagina

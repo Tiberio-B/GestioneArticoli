@@ -1,6 +1,7 @@
 package it.gestionearticoli.web.servlet.categoria;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -49,6 +50,10 @@ public class DeleteCategoriaServlet extends HttpServlet {
 			service.rimuovi(categoria);
 			request.setAttribute("successMessage", "Operazione effettuata con successo");
 			request.setAttribute("listaCategorie", service.elenca());
+		} catch (SQLException s) {
+			request.setAttribute("errorMessage", "Impossibile rimuovere una Categoria che presenta Articoli al suo interno");
+			request.setAttribute("listaCategorie", request.getParameter("listaCategorie"));
+			request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

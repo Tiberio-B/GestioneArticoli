@@ -12,9 +12,10 @@ import it.gestionearticoli.model.Categoria;
 import it.gestionearticoli.model.Utente;
 import it.gestionearticoli.service.ServiceFactory;
 import it.gestionearticoli.service.categoria.CategoriaService;
+import it.gestionearticoli.web.servlet.MyAbstractServlet;
 
 @WebServlet("/ConfirmUpdateCategoriaServlet")
-public class ConfirmUpdateCategoriaServlet extends HttpServlet {
+public class ConfirmUpdateCategoriaServlet extends MyAbstractServlet {
 	private static final long serialVersionUID = 1L;
 
 	public ConfirmUpdateCategoriaServlet() {
@@ -28,37 +29,37 @@ public class ConfirmUpdateCategoriaServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		Utente utente = (Utente) request.getSession().getAttribute("utente");	
-		if ( utente == null || utente.isGuest()) {	
+		// verifica ruolo utente, se fallisce reindirizza
+		Utente.Ruolo[] ruoliAutorizzati = {Utente.Ruolo.Admin, Utente.Ruolo.Operator};
+		int auth = verifyUser(request, "utente", ruoliAutorizzati);
+		if (auth <= 0) {
 			request.getRequestDispatcher("jsp/utente/login.jsp").forward(request, response);
 			return;
 		}
-		
-		// validazione input
-		String nome = request.getParameter("nome");
-		String idOldParam = request.getParameter("idOld");	
-		Long idOld = !idOldParam.isEmpty() ? Long.parseLong(idOldParam) : 0;
 				
-		// se la validazione fallisce torno in pagina
-		if (nome.isEmpty() || nome == null || idOld < 1) {
-			request.setAttribute("errorMessage", "Attenzione sono presenti errori di validazione");
-			request.getRequestDispatcher("jsp/categoria/update-categoria.jsp").forward(request, response);
+		// validazione campo ID, se fallisce reindirizza
+		Long idOld = validateID(request, "idOld");
+		if (idOld < 0) {
+			request.getRequestDispatcher("jsp/categoria/categorie.jsp").forward(request, response);
 			return;
 		}
 		
-		// conserva la categoria prima della modifica in categoriaOld
+		// validazione parametro Stringa, se fallisce reindirizza
+		String nome = validateStringParam(request, "nome");
+		if (nome == null) {
+			request.getRequestDispatcher("jsp/categoria/categorie.jsp").forward(request, response);
+			return;
+		}
+		
+		// conserva la categoria in categoriaOld prima della modifica
 		try {
-			CategoriaService service = ServiceFactory.getCategoriaServiceInstance();
-			Categoria categoriaOld = service.trova(idOld);
+			Categoria categoriaOld = ServiceFactory.getCategoriaServiceInstance().trova(idOld);
 			request.setAttribute("categoriaOld", categoriaOld);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		Categoria categoriaNew = new Categoria();
-		categoriaNew.setId(idOld);
-		categoriaNew.setNome(nome);
-		request.setAttribute("categoriaNew", categoriaNew);
+		request.setAttribute("categoriaNew", new Categoria(idOld, nome));
 
 		//andiamo ai risultati
 		request.getRequestDispatcher("jsp/categoria/confirm-update-categoria.jsp").forward(request, response);

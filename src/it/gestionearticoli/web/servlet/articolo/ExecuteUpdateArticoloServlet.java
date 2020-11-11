@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,10 +11,10 @@ import it.gestionearticoli.model.Articolo;
 import it.gestionearticoli.model.Categoria;
 import it.gestionearticoli.model.Utente;
 import it.gestionearticoli.service.ServiceFactory;
-import it.gestionearticoli.service.articolo.ArticoloService;
+import it.gestionearticoli.web.servlet.MyAbstractServlet;
 
 @WebServlet("/ExecuteUpdateArticoloServlet")
-public class ExecuteUpdateArticoloServlet extends HttpServlet {
+public class ExecuteUpdateArticoloServlet extends MyAbstractServlet {
 	private static final long serialVersionUID = 1L;
 
 	public ExecuteUpdateArticoloServlet() {
@@ -28,32 +27,34 @@ public class ExecuteUpdateArticoloServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		Utente utente = (Utente) request.getSession().getAttribute("utente");
-		if (utente == null || utente.isGuest()) {	
+
+		// verifica ruolo utente, se fallisce reindirizza
+		Utente.Ruolo[] ruoliAutorizzati = {Utente.Ruolo.Admin, Utente.Ruolo.Operator};
+		int auth = verifyUser(request, "utente", ruoliAutorizzati);
+		if (auth <= 0) {
 			request.getRequestDispatcher("jsp/utente/login.jsp").forward(request, response);
 			return;
 		}
 		
-		// validazione input
-		String idArtParam = request.getParameter("idArt");
-		String codiceParam = request.getParameter("codice");
-		String descrizioneParam = request.getParameter("descrizione");
-		String prezzoParam = request.getParameter("prezzo");
-		String idCatParam = request.getParameter("idCat");
-		Integer prezzo = !prezzoParam.isEmpty() ? Integer.parseInt(prezzoParam) : 0;
-		Long idArt = !idArtParam.isEmpty() ? Long.parseLong(idArtParam) : 0;
-		Long idCat = !idCatParam.isEmpty() ? Long.parseLong(idCatParam) : 0;
-		
-		// se la validazione fallisce torno in pagina
-		if (codiceParam.isEmpty() || descrizioneParam.isEmpty() || prezzo < 1 || idCat < 0) {
-			request.setAttribute("errorMessage", "Attenzione sono presenti errori di validazione");
-			request.getRequestDispatcher("insert.jsp").forward(request, response);
+		// validazione parametri Stringa, se fallisce reindirizza
+		String codiceParam = validateStringParam(request, "codice");
+		String descrizioneParam = validateStringParam(request, "descrizione");
+		if (codiceParam == null || descrizioneParam == null) {
+			request.getRequestDispatcher("jsp/categoria/categorie.jsp").forward(request, response);
 			return;
 		}
 		
-		Articolo articolo = new Articolo(codiceParam, descrizioneParam, prezzo);
-		articolo.setId(idArt);
+		Integer prezzo = validatePrezzo(request, "prezzo");
+				
+		// validazione campo ID, se fallisce reindirizza
+		Long idCat = validateID(request, "idCat");
+		Long idArt = validateID(request, "idArt");
+		if (idCat < 0 || idArt < 0) {
+			request.getRequestDispatcher("jsp/categoria/categorie.jsp").forward(request, response);
+			return;
+		}
+		
+		Articolo articolo = new Articolo(idArt, codiceParam, descrizioneParam, prezzo);
 		Categoria categoria = null;
 		
 		// ottiene la categoria specificata da idCat e la setta per l'articolo

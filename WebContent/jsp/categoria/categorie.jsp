@@ -17,6 +17,20 @@
 	
 	<main role="main" class="container">
 	
+	<div class="alert alert-danger alert-dismissible fade show d-none" role="alert">
+			 	Operazione fallita!
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			  </button>
+		</div>
+		
+		<div class="alert alert-danger alert-dismissible fade show ${errorMessage==null?'d-none': ''}" role="alert">
+		  ${errorMessage}
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+	
 		<div class="alert alert-success alert-dismissible fade show ${successMessage==null?'d-none': ''}" role="alert">
 		  ${successMessage}
 		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -36,12 +50,14 @@
 		  </button>
 		</div>
 		
+		<input type="hidden" name="listaCategorie" value="${requestScope.listaCategorie}">
+		
 		<div class='card'>
 		    <div class='card-header'>
 		        <h5>Elenco delle Categorie${searched==true? ' che soddisfano i parametri della ricerca': ''}</h5> 
 		    </div>
 		    <div class='card-body'>
-		    	<a class="btn btn-primary " href="PrepareInsertCategoriaServlet" aria-disabled="${sessionScope.cannotInsert}">Add New</a>
+		    	<a class="btn btn-primary ${sessionScope.cannotInsert?'disabled':''}" href="PrepareInsertCategoriaServlet" aria-disabled="${sessionScope.cannotInsert}">Inserisci nuova Categoria</a>
 		    
 		        <div class='table-responsive'>
 		            <table class='table table-striped ' >
@@ -59,8 +75,8 @@
 		                        <td><c:out value = "${item.nome}"/></td>
 		                        <td>
 									<a class="btn  btn-sm btn-outline-secondary" href="VisualizzaCategoriaServlet?idCat=${item.id}">Visualizza</a>
-									<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PrepareUpdateCategoriaServlet?idCat=${item.id}" aria-disabled="${sessionScope.cannotUpdate}">Modifica</a>
-									<a class="btn btn-outline-danger btn-sm" href="PrepareDeleteCategoriaServlet?idCat=${item.id}"  aria-disabled="${sessionScope.cannotDelete}">Rimuovi</a>
+									<a class="btn  btn-sm btn-outline-primary ml-2 mr-2 ${sessionScope.cannotUpdate?'disabled':''}" href="PrepareUpdateCategoriaServlet?idCat=${item.id}" aria-disabled="${sessionScope.cannotUpdate}">Modifica</a>
+									<a class="btn btn-outline-danger btn-sm ${sessionScope.cannotDelete?'disabled':''}" href="PrepareDeleteCategoriaServlet?idCat=${item.id}"  aria-disabled="${sessionScope.cannotDelete}">Rimuovi</a>
 								</td>
 		                    </tr>
 		                    </c:forEach>
@@ -71,19 +87,7 @@
 			<!-- end card-body -->			   
 		    </div>
 		</div>	
-		<div class="alert alert-danger alert-dismissible fade show d-none" role="alert">
-			 	Operazione fallita!
-			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			    <span aria-hidden="true">&times;</span>
-			  </button>
-		</div>
 		
-		<div class="alert alert-danger alert-dismissible fade show ${errorMessage==null?'d-none': ''}" role="alert">
-		  ${errorMessage}
-		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		    <span aria-hidden="true">&times;</span>
-		  </button>
-		</div>	
 	
 	<!-- end container -->	
 	</main>

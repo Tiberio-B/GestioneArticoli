@@ -25,7 +25,7 @@ public class PrepareUpdateCategoriaServlet extends MyAbstractServlet {
 		
 		// verifica ruolo utente
 		Utente.Ruolo[] ruoliRichiesti = {Utente.Ruolo.Admin, Utente.Ruolo.Operator};
-		int auth = validateUser(request, "utente", ruoliRichiesti);
+		int auth = verifyUser(request, "utente", ruoliRichiesti);
 		if (auth <= 0) {
 			request.getRequestDispatcher("jsp/utente/login.jsp").forward(request, response);
 			return;

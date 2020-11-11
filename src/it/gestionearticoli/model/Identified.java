@@ -1,8 +1,8 @@
 package it.gestionearticoli.model;
 
-public abstract class Record {
+public abstract class Identified {
 
-	private Long id;
+	protected Long id;
 	
 	public Long getId() {
 		return id;
