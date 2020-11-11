@@ -12,9 +12,10 @@ import it.gestionearticoli.model.Articolo;
 import it.gestionearticoli.model.Categoria;
 import it.gestionearticoli.model.Utente;
 import it.gestionearticoli.service.ServiceFactory;
+import it.gestionearticoli.web.servlet.MyAbstractServlet;
 
 @WebServlet("/PrepareDeleteCategoriaServlet")
-public class PrepareDeleteCategoriaServlet extends HttpServlet {
+public class PrepareDeleteCategoriaServlet extends MyAbstractServlet {
 	private static final long serialVersionUID = 1L;
 
 	public PrepareDeleteCategoriaServlet() {
@@ -24,28 +25,17 @@ public class PrepareDeleteCategoriaServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		Utente utente = (Utente) request.getSession().getAttribute("utente");
-		if ( utente == null) {
-			String errorMessage = "Devi essere loggato per effettuare questa operazione.";
-			request.setAttribute("errorMessage", errorMessage);
-			request.getRequestDispatcher("jsp/utente/login.jsp").forward(request, response);
-			return;
-		}
-		if ( !(utente.isAdmin()) ) {
-			String errorMessage = "Non possiedi le credenziali necessarie ad effettuare questa operazione.\n"+
-					"Ruolo richiesto: Admin, Ruolo attuale: "+utente.getRuolo().name();
-			request.setAttribute("errorMessage", errorMessage);
+		// verifica ruolo utente
+		Utente.Ruolo[] ruoliRichiesti = {Utente.Ruolo.Admin};
+		int auth = validateUser(request, "utente", ruoliRichiesti);
+		if (auth <= 0) {
 			request.getRequestDispatcher("jsp/utente/login.jsp").forward(request, response);
 			return;
 		}
 		
 		// validazione input
-		String idParam = request.getParameter("idCat");
-		Long idCat = !idParam.isEmpty() ? Long.parseLong(idParam) : 0;
-				
-		// se la validazione fallisce torno in pagina
+		Long idCat = validateID(request, "idCat");
 		if (idCat < 0) {
-			request.setAttribute("errorMessage", "Attenzione sono presenti errori di validazione");
 			request.getRequestDispatcher("jsp/categoria/categorie.jsp").forward(request, response);
 			return;
 		}

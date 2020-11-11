@@ -12,9 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import it.gestionearticoli.model.Categoria;
 import it.gestionearticoli.model.Utente;
 import it.gestionearticoli.service.ServiceFactory;
+import it.gestionearticoli.web.servlet.MyAbstractServlet;
 
 @WebServlet("/PrepareInsertArticoloServlet")
-public class PrepareInsertArticoloServlet extends HttpServlet {
+public class PrepareInsertArticoloServlet extends MyAbstractServlet {
 	private static final long serialVersionUID = 1L;
 
 	public PrepareInsertArticoloServlet() {
@@ -24,17 +25,10 @@ public class PrepareInsertArticoloServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		Utente utente = (Utente) request.getSession().getAttribute("utente");
-		if ( utente == null) {
-			String errorMessage = "Devi essere loggato per effettuare questa operazione.";
-			request.setAttribute("errorMessage", errorMessage);
-			request.getRequestDispatcher("jsp/utente/login.jsp").forward(request, response);
-			return;
-		}
-		if ( !(utente.isAdmin() || utente.isOperator())) {
-			String errorMessage = "Non possiedi le credenziali necessarie ad effettuare questa operazione.\n"+
-					"Ruolo richiesto: Admin o Operator, Ruolo attuale: "+utente.getRuolo().name();
-			request.setAttribute("errorMessage", errorMessage);
+		// verifica ruolo utente
+		Utente.Ruolo[] ruoliRichiesti = {Utente.Ruolo.Admin, Utente.Ruolo.Operator};
+		int auth = validateUser(request, "utente", ruoliRichiesti);
+		if (auth <= 0) {
 			request.getRequestDispatcher("jsp/utente/login.jsp").forward(request, response);
 			return;
 		}

@@ -8,7 +8,7 @@ import it.gestionearticoli.connection.MyConnection;
 import it.gestionearticoli.dao.Constants;
 import it.gestionearticoli.dao.IBaseDAO;
 
-public class AbstractGenericService<T> implements GenericService<T> {
+public abstract class AbstractGenericService<T> implements GenericService<T> {
 	
 	private IBaseDAO<T> dao;
 	
@@ -53,8 +53,6 @@ public class AbstractGenericService<T> implements GenericService<T> {
 		}
 		return result;
 	}
-	
-
 
 	@Override
 	public List<T> trovaDa(T input) throws Exception {
