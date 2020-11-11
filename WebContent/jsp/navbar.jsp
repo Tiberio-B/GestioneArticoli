@@ -18,15 +18,19 @@
         <a class="dropdown-item" href="LoginServlet">Accedi</a>
           <a class="dropdown-item" href="ListArticoliServlet">Elenco Articoli</a>
           <a class="dropdown-item" href="ListCategorieServlet">Elenco Categorie</a>
+          <a class="dropdown-item" href="PrepareSearchArticoloServlet">Cerca Articolo</a>
+          <a class="dropdown-item" href="PrepareSearchCategoriaServlet">Cerca Categoria</a>
           <a class="dropdown-item" href="LogoutServlet">Logout</a>
         </div>
       </li>
+      
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${sessionScope.utente}</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown02">
+          <a class="dropdown-item" href="LogoutServlet">Logout</a>
+        </div>
+      </li>
+    
     </ul>
-    
-    <span class="nav-link" style="color:white;">${sessionScope.utente}</span>
-    
-    <a class="nav-link btn btn-outline-success my-2 my-sm-0" href="PrepareSearchArticoloServlet">Cerca Articolo</a>
-    <a class="nav-link btn btn-outline-success my-2 my-sm-0" href="PrepareSearchCategoriaServlet">Cerca Categoria</a>
-
   </div>
 </nav>
