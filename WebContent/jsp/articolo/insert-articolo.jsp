@@ -15,17 +15,6 @@
 	<main role="main" class="container">
 	
 	<jsp:include page="../error-message.jsp" />
-	
-	<!-- 
-		<div class="alert alert-danger alert-dismissible fade show d-none"
-			role="alert">
-			Operazione fallita!
-			<button type="button" class="close" data-dismiss="alert"
-				aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div>
-	-->
 
 		<div class='card'>
 			<div class='card-header'>
@@ -37,7 +26,7 @@
 					I campi con <span class="text-danger">*</span> sono obbligatori
 				</h6>
 
-				<form method="post" action="ExecuteInsertArticoloServlet"
+				<form name="myForm" method="post" action="ExecuteInsertArticoloServlet"
 					novalidate="novalidate">
 
 					<div class="form-row">

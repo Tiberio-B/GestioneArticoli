@@ -13,19 +13,7 @@
 	
 	<main role="main" class="container">
 	
-		<div class="alert alert-danger alert-dismissible fade show d-none" role="alert">
-			 	Operazione fallita!
-			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			    <span aria-hidden="true">&times;</span>
-			  </button>
-		</div>
-		
-		<div class="alert alert-danger alert-dismissible fade show ${errorMessage==null?'d-none': ''}" role="alert">
-		  ${errorMessage}
-		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		    <span aria-hidden="true">&times;</span>
-		  </button>
-		</div>
+		<jsp:include page="../error-message.jsp" />
 		
 		<div class='card'>
 		    <div class='card-header'>
@@ -35,7 +23,7 @@
 
 					<h6 class="card-title">I campi con <span class="text-danger">*</span> sono obbligatori</h6>
 
-					<form method="post" action="ExecuteInsertCategoriaServlet" novalidate="novalidate">
+					<form name="myForm" method="post" action="ExecuteInsertCategoriaServlet" novalidate="novalidate">
 					
 						<div class="form-row">
 							<div class="form-group col-md-6">

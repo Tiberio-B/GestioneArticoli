@@ -33,3 +33,15 @@
   }
   
 </style>
+
+<!-- Javascript -->
+<script>
+	function validateForm() {
+  	var x = document.forms["myForm"]["nome"].value;
+  	if (x == "") {
+    	alert("Il campo Descrizione va valorizzato");
+    	window.history.back();
+    	return false;
+  	}
+	}
+</script>
